@@ -12,6 +12,8 @@ library(DataExplorer)
 
 # Read data.
 ```{r}
+options(scipen = 999)
+
 df_2010 = read.csv('../data/raw/SVI/SVI2010_US.csv')
 df_2000 = read.csv('../data/raw/SVI/SVI2000_US.csv')
 df_2014 = read.csv('../data/raw/SVI/SVI2014_US.csv')
@@ -37,10 +39,6 @@ Drop bad columns from dataset
 ```{r}
 bad_cols <- c('E_P_PCI','M_P_PCI')
 df_2010 = df_2010[,!(names(df_2010) %in% bad_cols)]
-```
-
-```{r}
-df_2010$E_P_POV
 ```
 
 
@@ -136,6 +134,8 @@ df_2016 = df_2016[,!(names(df_2016) %in% bad_cols)]
 
 ```
 
+
+
 # 2018 cleaning
 
 ```{r}
@@ -159,10 +159,53 @@ Cast fips to character to avoid overflow
 df$FIPS <- as.character(df$FIPS)
 ```
 
-
-
+Remove unnecesary columns
 ```{r}
-write.csv(df,file = '../data/processed/SVI_all_years.csv')
+
+unwanted_cols <- c('ST',
+  'CNTY_FIPS',
+  'STCNTY',
+  'TRACT',
+  'COUNTY',
+  'LOCATION',
+  'GEO_ID',
+  'X')
+
+df<-df[!(names(df) %in% unwanted_cols)]
 ```
 
 
+Pivot wider
+
+id_cols = c('ST',
+            'CNTY_FIPS',
+            'STCNTY',
+            'TRACT',
+            'FIPS',
+            'STATE',
+            'ST_ABBR',
+            'COUNTY',
+            'LOCATION',
+            'GEO_ID')
+```{r}
+
+
+
+id_cols = c('FIPS',
+            'STATE',
+            'ST_ABBR')
+
+
+names_from <- c('YEAR')
+values_from <- names(df)[!(names(df) %in% append(id_cols,names_from))]
+
+df <- df %>% pivot_wider(id_cols = id_cols,
+                          names_from = names_from,
+                          values_from = values_from)
+```
+
+
+Write csv
+```{r}
+write.csv(df,file = '../data/processed/SVI_all_years.csv',row.names = FALSE)
+```

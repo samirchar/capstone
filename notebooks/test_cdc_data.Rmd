@@ -10,9 +10,14 @@ library(DataExplorer)
 
 ```
 
+```{r}
+options(scipen = 999)
+```
+
 
 ```{r}
 df <- read.csv('../data/processed/SVI_all_years.csv')
+#df <- read.csv('../data/raw/SVI/SVI2010_US.csv')
 ```
 
 ```{r}
@@ -20,35 +25,8 @@ df <- read.csv('../data/processed/SVI_all_years.csv')
 head(df)
 ```
 
-
-```{r}
-df <- df %>% mutate(across(where(is.character), toupper)) %>% mutate(across(where(is.character), str_trim))
-```
-
-```{r}
-df$FIPS <- as.character(df$FIPS)
-```
-
-
 ```{r}
 df_sample <- sample_frac(df,size = 0.1)
 ```
 
-```{r}
-df_sample %>% pivot_wider(id_cols = c(FIPS), names_from = YEAR,values_from = c(EP_POV,EP_AGE65))
-```
-```{r}
-df[df$FIPS == 1001020100,]
-```
-
-```{r}
-as.integer(df$FIPS)
-temp <- df %>% group_by(FIPS,YEAR) %>% summarise(n=n()) %>% arrange(desc(n))
-```
-```{r}
-df$FIPS
-```
-
-```{r}
-```
 
