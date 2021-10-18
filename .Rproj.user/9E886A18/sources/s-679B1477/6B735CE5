@@ -5,14 +5,14 @@
     "type": "r_markdown",
     "hash": "0",
     "contents": "",
-    "dirty": true,
+    "dirty": false,
     "created": 1634581585122.0,
     "source_on_save": false,
     "relative_order": 2,
     "properties": {
         "tempName": "Untitled1",
         "chunk_output_type": "inline",
-        "cursorPosition": "18,129",
+        "cursorPosition": "18,137",
         "scrollLine": "0"
     },
     "folds": "",
@@ -20,7 +20,7 @@
     "encoding": "",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1634581631209,
+    "last_content_update": 1634599899326,
     "read_only": false,
     "read_only_alternatives": []
 }

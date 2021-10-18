@@ -1,0 +1,6 @@
+"0","options(scipen = 999)"
+"0",""
+"0","df = read.csv('/Users/tomislav_galjanic/Documents/Tomislav/Columbia/Courses/Fall 2021/ENGI E4800/Tedesco/HMDA/hmda_2017_ri_selected.csv')"
+"2","cannot open file '/Users/tomislav_galjanic/Documents/Tomislav/Columbia/Courses/Fall 2021/ENGI E4800/Tedesco/HMDA/hmda_2017_ri_selected.csv': No such file or directory"
+"2","Error in file(file, ""rt"") : cannot open the connection
+"

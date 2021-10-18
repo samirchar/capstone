@@ -16,7 +16,7 @@ library(DataExplorer)
 ```{r}
 options(scipen = 999)
 
-df = read.csv('/Users/tomislav_galjanic/Documents/Tomislav/Columbia/Courses/Fall 2021/ENGI E4800/Tedesco/CDC/SVI/SVI2010_US.csv')
+df = read.csv('/Users/tomislav_galjanic/Documents/Tomislav/Columbia/Courses/Fall 2021/ENGI E4800/Tedesco/HMDA/hmda_2017_ri_selected.csv')
 ```
 
 
