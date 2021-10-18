@@ -1,0 +1,1 @@
+"0","df <- df %>% mutate(across(where(is.character), toupper)) %>% mutate(across(where(is.character), str_trim))"
