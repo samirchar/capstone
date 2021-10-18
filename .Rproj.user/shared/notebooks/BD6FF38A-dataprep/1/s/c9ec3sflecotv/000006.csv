@@ -1,0 +1,5 @@
+"0",""
+"0","df_data_dict <- df_cols_dict %>% rename(Variable_Name = df_cols) "
+"0","df_data_dict <- subset(df_data_dict, select = c(Variable_Name, Variable_Description))"
+"0",""
+"0","write.csv(df_data_dict, file = '/Users/tomislav_galjanic/Documents/Tomislav/Columbia/Courses/Fall 2021/ENGI E4800/Tedesco/CDC/SVI/processed/SVI_data_dictionary.csv',row.names = FALSE)"

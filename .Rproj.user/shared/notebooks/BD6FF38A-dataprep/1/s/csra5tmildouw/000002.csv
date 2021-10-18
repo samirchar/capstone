@@ -1,0 +1,8 @@
+"0","not_nans = !is.na(df_2010_dict$VARIABLE_NAME_2018)"
+"0",""
+"0","mask = (!(df_2010_dict$VARIABLE_NAME %in% bad_cols))&(not_nans)"
+"0",""
+"0","oldnames = c(df_2010_dict$VARIABLE_NAME[mask])"
+"0","newnames = c(df_2010_dict$VARIABLE_NAME_2018[mask])"
+"0",""
+"0","df_2010 <- df_2010 %>% rename_at(vars(oldnames), ~ newnames)"
