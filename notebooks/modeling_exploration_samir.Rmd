@@ -1,0 +1,54 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(dplyr)
+library(tidyverse)
+library(ggplot2)
+library(corrplot)
+library(extracat)
+```
+
+```{r}
+train = read.csv('../data/processed/sepher_model_data/train.csv')
+```
+
+```{r}
+colMeans(is.na(train))*100
+```
+```{r}
+visna(train)
+```
+
+
+```{r,fig.height=2,fig.width=2}
+cormat <- cor(train[,-c(1)],use = "complete.obs")
+col<- colorRampPalette(c("blue","white","red"))(200)
+corrplot(cormat,
+         method="color",
+         #type='upper',
+         order = 'hclust',
+         tl.col = 'black',
+         #diag=FALSE,
+         addCoef.col = "black",
+         addgrid.col = 'white',
+         tl.cex = 0.4,
+         number.cex=0.3,
+         cl.cex = 0.4,
+         cl.ratio = 0.1
+         )
+```
+
+
+```{r}
+hist(train$EVICTIONS,breaks=30)
+```
+
+
+```{r}
+train$EVICTIONS <- replace_na(train$EVICTIONS,0)
+train %>% ggplot(aes(x = EP_MINRTY,y=EP_PCI,z =EVICTIONS)) + stat_summary_2d(bins = 10) +scale_fill_gradient2(low = "grey",high = "black",name = '# Evictions')
+```
+

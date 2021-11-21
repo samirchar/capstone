@@ -54,7 +54,7 @@ output_folder_path <- '../../data/processed/sepher_model_data'
 relevant_cols <- c('FIPS',
                    'EP_UNEMP',
                    'EP_PCI',
-                   'EP_PCI',
+                   'EP_POV',
                    'EP_NOVEH',
                    'EP_NOHSDP',
                    'EP_MOBILE',
