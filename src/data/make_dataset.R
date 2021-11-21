@@ -81,5 +81,5 @@ split = train_test_split(df,train_proportion = train_proportion)
 
 dir.create(file.path(output_folder_path))
 write.csv(split$train,file.path(output_folder_path,'train.csv'),row.names = FALSE)
-write.csv(split$test,file.path(output_folder_path,'test'),row.names = FALSE)
+write.csv(split$test,file.path(output_folder_path,'test.csv'),row.names = FALSE)
 
