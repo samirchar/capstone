@@ -1,5 +1,0 @@
-"0",""
-"0","oldnames = c(df_2000_dict$VARIABLE_NAME)"
-"0","newnames = c(df_2000_dict$VARIABLE_NAME_2018)"
-"0",""
-"0","df_2000 <- df_2000 %>% rename_at(vars(oldnames), ~ newnames)"

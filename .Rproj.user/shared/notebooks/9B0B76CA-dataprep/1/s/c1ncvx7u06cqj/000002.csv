@@ -1,3 +1,0 @@
-"0","```r
-write.csv(df,file = '../data/processed/SVI_all_years.csv',row.names = FALSE)
-```"

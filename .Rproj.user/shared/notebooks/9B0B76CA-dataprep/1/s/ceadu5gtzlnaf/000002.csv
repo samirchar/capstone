@@ -1,4 +1,0 @@
-"0","```r
-bad_cols <- c('E_P_PCI','M_P_PCI')
-df_2010 = df_2010[,!(names(df_2010) %in% bad_cols)]
-```"
