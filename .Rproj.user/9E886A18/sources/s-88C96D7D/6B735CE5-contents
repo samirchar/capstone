@@ -1,0 +1,22 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+```{r}
+library(tidyverse)
+library(dplyr)
+library(DataExplorer)
+
+```
+
+
+# Read data.
+```{r}
+options(scipen = 999)
+
+df = read.csv('/Users/tomislav_galjanic/Documents/Tomislav/Columbia/Courses/Fall 2021/ENGI E4800/Tedesco/HMDA/From Marco/hmda_2017_ri_selected.csv')
+```
+
+
