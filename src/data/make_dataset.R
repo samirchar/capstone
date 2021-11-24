@@ -113,6 +113,8 @@ output_folder_path <- '../../data/processed/sepher_model_data'
 
 
 relevant_cols <- c('FIPS',
+                   'POPULATION',
+                   #'TOT_POP',
                    'EP_UNEMP',
                    'EP_PCI',
                    'EP_POV',
@@ -126,6 +128,8 @@ relevant_cols <- c('FIPS',
                    'AFAM',
                    'WHITE',
                    'HISPANIC',
+                   'NUM_LOANS',
+                   'MEAN_LOAN_AMOUNT',
                    'WFIR_EALT',
                    'HRCN_EALT',
                    'CFLD_EALT',
