@@ -1,0 +1,5 @@
+"0","```r
+#world_coffee2 = left_join(world, coffee_renamed, by = c(name_long = \"nm\"))
+df_sepher_ri_geo <- right_join(ri_census_tracts_2018, df_sepher_ri, by = c(\"GEOID\" = \"FIPS\"))
+
+```"

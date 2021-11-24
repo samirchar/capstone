@@ -1,0 +1,86 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE,
+                      message = FALSE)
+```
+
+
+```{r}
+
+#setwd("/Users/tomislav_galjanic/Documents/Tomislav/Columbia/Courses/Fall 2021/ENGI E4800/Tedesco/capstone/src/models")
+
+```
+
+
+
+```{r}
+
+library(dplyr)
+library(tidyverse)
+library(ggplot2)
+library(corrplot)
+library(stringr)
+library(mi)
+library(extracat)
+#library(lmtest)
+#library(MASS)
+#library(olsrr)
+
+```
+
+
+
+```{r}
+
+df_sepher_train <- read.csv('/Users/tomislav_galjanic/Documents/Tomislav/Columbia/Courses/Fall 2021/ENGI E4800/Tedesco/SEPHER 2.0/Model Files/train.csv', colClasses = c("FIPS" = "character"))
+
+```
+
+
+```{r}
+
+colMeans(is.na(df_sepher_train))
+
+```
+
+
+```{r}
+
+mi_data <- missing_data.frame(df_sepher_train)
+image(mi_data)
+
+```
+
+
+```{r}
+
+visna(df_sepher_train, sort = "r")
+#visna(df_sepher_train)
+
+```
+
+
+
+
+```{r}
+
+df_train_num <- subset(df_sepher_train, select = -c(FIPS))
+corr_train <- cor(df_train_num, use = "pairwise.complete.obs")
+#corrplot(corr_train, method = 'color', order = "alphabet")
+corrplot(corr_train, method = 'color')
+
+```
+
+```{r}
+
+par(mfrow=c(1,1))
+hist(df_train_num$EVICTIONS) 
+
+```
+
+

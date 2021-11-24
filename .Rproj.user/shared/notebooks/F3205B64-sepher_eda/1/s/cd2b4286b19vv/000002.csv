@@ -1,0 +1,3 @@
+"0",""
+"0","df_sepher_train <- read.csv('/Users/tomislav_galjanic/Documents/Tomislav/Columbia/Courses/Fall 2021/ENGI E4800/Tedesco/SEPHER 2.0/Model Files/train.csv', colClasses = c(""FIPS"" = ""character""))"
+"0",""

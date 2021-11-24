@@ -1,0 +1,32 @@
+{
+    "id": "D83F2F49",
+    "path": null,
+    "project_path": null,
+    "type": "r_dataframe",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1637597291146.0,
+    "source_on_save": false,
+    "relative_order": 3,
+    "properties": {
+        "expression": "df_sepher_train",
+        "caption": "df_sepher_train",
+        "totalObservations": 59917,
+        "displayedObservations": 59917,
+        "variables": 20,
+        "cacheKey": "77BF5DD4",
+        "object": "df_sepher_train",
+        "environment": "",
+        "contentUrl": "grid_resource/gridviewer.html?env=&obj=df_sepher_train&cache_key=77BF5DD4&max_cols=50",
+        "preview": 0
+    },
+    "folds": "",
+    "lastKnownWriteTime": 4310574886,
+    "encoding": "",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1637597291146,
+    "read_only": false,
+    "read_only_alternatives": []
+}

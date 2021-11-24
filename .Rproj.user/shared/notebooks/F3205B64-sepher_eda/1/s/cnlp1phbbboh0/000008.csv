@@ -1,0 +1,6 @@
+"0",""
+"0","df_train_num <- subset(df_sepher_train, select = -c(FIPS))"
+"0","corr_train <- cor(df_train_num, use = ""pairwise.complete.obs"")"
+"0","#corrplot(corr_train, method = 'color', order = ""alphabet"")"
+"0","corrplot(corr_train, method = 'color')"
+"0",""

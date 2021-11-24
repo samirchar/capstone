@@ -1,0 +1,10 @@
+"0","```r
+root_dir <- \"/Users/tomislav_galjanic/Documents/Tomislav/Columbia/Courses/Fall 2021/ENGI E4800/Tedesco/SEPHER 2.0/Shape Files\"
+#st_write(obj = df_sepher_ri_geo, dsn = paste0(root_dir, \"/\", \"sepher_ri_geo.shp\") )
+
+st_write(obj = df_sepher_ri_geo, dsn = paste0(root_dir, \"/\", \"sepher_ri_geo.gpkg\"), layer = \"sepher_ri_geo.gpkg\", driver = \"GPKG\")
+```"
+"1","Writing layer `sepher_ri_geo.gpkg' to data source 
+  `/Users/tomislav_galjanic/Documents/Tomislav/Columbia/Courses/Fall 2021/ENGI E4800/Tedesco/SEPHER 2.0/Shape Files/sepher_ri_geo.gpkg' using driver `GPKG'
+Writing 251 features with 1715 fields and geometry type Multi Polygon.
+"

@@ -1,0 +1,23 @@
+"0","```r
+#tracts(state = NULL, county = NULL, cb = FALSE, year = NULL, ...)
+#us_census_tracts_2019 <- tracts(state = NULL, cb = TRUE)
+st_crs(us_census_tracts_2019)
+```"
+"1","Coordinate Reference System:
+  User input: NAD83 
+  wkt:
+GEOGCRS[\"NAD83\",
+    DATUM[\"North American Datum 1983\",
+        ELLIPSOID[\"GRS 1980\",6378137,298.257222101,
+            LENGTHUNIT[\"metre\",1]]],
+    PRIMEM[\"Greenwich\",0,
+        ANGLEUNIT[\"degree\",0.0174532925199433]],
+    CS[ellipsoidal,2],
+        AXIS[\"latitude\",north,
+            ORDER[1],
+            ANGLEUNIT[\"degree\",0.0174532925199433]],
+        AXIS[\"longitude\",east,
+            ORDER[2],
+            ANGLEUNIT[\"degree\",0.0174532925199433]],
+    ID[\"EPSG\",4269]]
+"

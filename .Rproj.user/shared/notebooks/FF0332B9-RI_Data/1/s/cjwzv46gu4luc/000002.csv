@@ -1,0 +1,10 @@
+"0","```r
+#setwd(\"/Users/tomislav_galjanic/Documents/Tomislav/Columbia/Courses/Sp 2021/STAT GR5702/Final Project\")
+#setwd(\"/Users/tomislav_galjanic/Documents/Tomislav/Columbia/Courses/Fall 2021/ENGI E4800/Tedesco/CDC/Rhode Island\")
+ri_2018 <- read.csv(\"/Users/tomislav_galjanic/Documents/Tomislav/Columbia/Courses/Fall 2021/ENGI E4800/Tedesco/CDC/Rhode Island/Rhodeisland_2018.csv\")
+ri_2016 <- read.csv(\"/Users/tomislav_galjanic/Documents/Tomislav/Columbia/Courses/Fall 2021/ENGI E4800/Tedesco/CDC/Rhode Island/Rhodeisland_2016.csv\")
+ri_2014 <- read.csv(\"/Users/tomislav_galjanic/Documents/Tomislav/Columbia/Courses/Fall 2021/ENGI E4800/Tedesco/CDC/Rhode Island/Rhodeisland_2014.csv\")
+ri_2010 <- read.csv(\"/Users/tomislav_galjanic/Documents/Tomislav/Columbia/Courses/Fall 2021/ENGI E4800/Tedesco/CDC/Rhode Island/Rhodeisland_2010.csv\")
+ri_2000 <- read.csv(\"/Users/tomislav_galjanic/Documents/Tomislav/Columbia/Courses/Fall 2021/ENGI E4800/Tedesco/CDC/Rhode Island/Rhodeisland_2000.csv\")
+
+```"

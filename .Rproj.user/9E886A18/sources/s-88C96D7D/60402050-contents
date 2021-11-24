@@ -1,0 +1,45 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE,
+                      message = FALSE)
+```
+
+
+```{r}
+library(dplyr)
+library(tidyverse)
+library(ggplot2)
+library(lubridate)
+library(stringr)
+library(treemap)
+library(vcd)
+library(RColorBrewer)
+library(zoo)
+library(corrplot)
+library(reshape)
+```
+
+
+1) Reading in data
+
+```{r}
+ri_2018 <- read.csv("/Users/tomislav_galjanic/Documents/Tomislav/Columbia/Courses/Fall 2021/ENGI E4800/Tedesco/CDC/Rhode Island/Rhodeisland_2018.csv")
+ri_2016 <- read.csv("/Users/tomislav_galjanic/Documents/Tomislav/Columbia/Courses/Fall 2021/ENGI E4800/Tedesco/CDC/Rhode Island/Rhodeisland_2016.csv")
+ri_2014 <- read.csv("/Users/tomislav_galjanic/Documents/Tomislav/Columbia/Courses/Fall 2021/ENGI E4800/Tedesco/CDC/Rhode Island/Rhodeisland_2014.csv")
+ri_2010 <- read.csv("/Users/tomislav_galjanic/Documrents/Tomislav/Columbia/Courses/Fall 2021/ENGI E4800/Tedesco/CDC/Rhode Island/Rhodeisland_2010.csv")
+ri_2000 <- read.csv("/Users/tomislav_galjanic/Documents/Tomislav/Columbia/Courses/Fall 2021/ENGI E4800/Tedesco/CDC/Rhode Island/Rhodeisland_2000.csv")
+
+```
+

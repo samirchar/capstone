@@ -1,0 +1,78 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE,
+                      message = FALSE)
+```
+install.packages('Rcpp')
+library(Rcpp)
+
+
+```{r}
+library(dplyr)
+library(tidyverse)
+library(ggplot2)
+```
+
+
+
+
+```{r}
+
+library(sf)
+library(terra)
+library(tigris)
+
+```
+
+
+```{r}
+#tracts(state = NULL, county = NULL, cb = FALSE, year = NULL, ...)
+#us_census_tracts_2019 <- tracts(state = NULL, cb = TRUE)
+st_crs(us_census_tracts_2019)
+```                                                                                                                                                                                                                                                      
+
+```{r}
+
+ri_census_tracts_2018 <- tracts(state = "RI", cb = FALSE, year = 2018)
+st_crs(ri_census_tracts_2018)
+```
+
+
+
+```{r}
+
+df_sepher_ri <- read.csv('/Users/tomislav_galjanic/Documents/Tomislav/Columbia/Courses/Fall 2021/ENGI E4800/Tedesco/SEPHER 2.0/sepher2.0_cleaned_ri.csv', colClasses = "character")
+#df_sepher_ri$FIPS <- as.character(df_sepher_ri$FIPSdf)
+
+```
+
+
+```{r}
+#world_coffee2 = left_join(world, coffee_renamed, by = c(name_long = "nm"))
+df_sepher_ri_geo <- right_join(ri_census_tracts_2018, df_sepher_ri, by = c("GEOID" = "FIPS"))
+
+```
+
+
+```{r}
+root_dir <- "/Users/tomislav_galjanic/Documents/Tomislav/Columbia/Courses/Fall 2021/ENGI E4800/Tedesco/SEPHER 2.0/Shape Files"
+#st_write(obj = df_sepher_ri_geo, dsn = paste0(root_dir, "/", "sepher_ri_geo.shp") )
+
+st_write(obj = df_sepher_ri_geo, dsn = paste0(root_dir, "/", "sepher_ri_geo.gpkg"), layer = "sepher_ri_geo.gpkg", driver = "GPKG")
+
+```
+
+
+```{r}
+
+#df_ri_read = st_read(system.file("shape/nc.shp", package="sf"))
+df_ri_read = st_read(dsn = paste0(root_dir, "/", "sepher_ri_geo.gpkg"), layer = "sepher_ri_geo.gpkg")
+str(df_ri_read)
+
+```
+

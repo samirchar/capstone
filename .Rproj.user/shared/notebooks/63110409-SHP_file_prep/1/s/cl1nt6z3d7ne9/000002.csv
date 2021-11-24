@@ -1,0 +1,6 @@
+"0","```r
+
+df_sepher_ri <- read.csv('/Users/tomislav_galjanic/Documents/Tomislav/Columbia/Courses/Fall 2021/ENGI E4800/Tedesco/SEPHER 2.0/sepher2.0_cleaned_ri.csv', colClasses = \"character\")
+#df_sepher_ri$FIPS <- as.character(df_sepher_ri$FIPSdf)
+
+```"

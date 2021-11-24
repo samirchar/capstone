@@ -1,0 +1,24 @@
+{
+    "id": "FAA204D0",
+    "path": "~/Documents/Tomislav/Columbia/Courses/Fall 2021/ENGI E4800/Tedesco/capstone/src/data/make_dataset.R",
+    "project_path": "src/data/make_dataset.R",
+    "type": "r_source",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1637592981780.0,
+    "source_on_save": false,
+    "relative_order": 3,
+    "properties": {
+        "cursorPosition": "12,44",
+        "scrollLine": "1"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1637705642,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1637705642184,
+    "read_only": false,
+    "read_only_alternatives": []
+}
