@@ -1,0 +1,8 @@
+[1,"Installing 'hash' ...\n"]
+[2,"Installing package into ‘/Users/tomislav_galjanic/Library/R/4.0/library’\n(as ‘lib’ is unspecified)\n"]
+[2,"trying URL 'https://cran.rstudio.com/bin/macosx/contrib/4.0/hash_2.2.6.1.tgz'\n"]
+[2,"Content type 'application/x-gzip' length 187009 bytes (182 KB)\n=========="]
+[2,"========================================\ndownloaded 182 KB\n\n"]
+[1,"The downloaded binary packages are in\n"]
+[1,"\t/var/folders/29/tbbwrjls16z3x1k881zxxpgc0000gn/T//RtmpACrHJy/downloaded_packages\n"]
+[2,"\n\n✔ Package 'hash' successfully installed.\n"]

@@ -1,0 +1,38 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+library(dplyr)
+library(DataExplorer)
+
+```
+
+```{r}
+df = read.csv('../data/raw/SVI/SVI2018_US.csv')
+df<-na_if(df,-999)
+head(df)
+```
+
+```{r}
+dim(df)
+```
+
+```{r}
+df %>% 
+   summarise_each(funs(100*mean(is.na(.)))) %>% pivot_longer(cols = everything(),names_to = "column", values_to = "pct_na") %>% arrange(desc(pct_na))
+```
+There are very few missing values, the column with the most missing values only has 0.9% of values missing.
+
+```{r}
+str(df)
+```
+
+Most of the variables are numeric
+
+```{r}
+create_report(df)
+```
+

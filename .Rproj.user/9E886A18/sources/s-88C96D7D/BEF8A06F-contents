@@ -1,0 +1,332 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+library(dplyr)
+library(DataExplorer)
+
+```
+
+# Read data.
+```{r}
+options(scipen = 999)
+
+df_2010 = read.csv('/Users/tomislav_galjanic/Documents/Tomislav/Columbia/Courses/Fall 2021/ENGI E4800/Tedesco/CDC/SVI/SVI2010_US.csv')
+df_2000 = read.csv('/Users/tomislav_galjanic/Documents/Tomislav/Columbia/Courses/Fall 2021/ENGI E4800/Tedesco/CDC/SVI/SVI2000_US.csv')
+df_2014 = read.csv('/Users/tomislav_galjanic/Documents/Tomislav/Columbia/Courses/Fall 2021/ENGI E4800/Tedesco/CDC/SVI/SVI2014_US.csv')
+df_2016 = read.csv('/Users/tomislav_galjanic/Documents/Tomislav/Columbia/Courses/Fall 2021/ENGI E4800/Tedesco/CDC/SVI/SVI2016_US.csv')
+df_2018 = read.csv('/Users/tomislav_galjanic/Documents/Tomislav/Columbia/Courses/Fall 2021/ENGI E4800/Tedesco/CDC/SVI/SVI2018_US.csv')
+
+df_2010<-na_if(df_2010,-999)
+df_2000<-na_if(df_2000,-999)
+df_2014<-na_if(df_2014,-999)
+df_2016<-na_if(df_2016,-999)
+df_2018<-na_if(df_2018,-999)
+
+
+df_2010_dict = read.csv('/Users/tomislav_galjanic/Documents/Tomislav/Columbia/Courses/Fall 2021/ENGI E4800/Tedesco/CDC/SVI/SVI2010_dictionary_augmented_v2.csv')
+df_2000_dict = read.csv('/Users/tomislav_galjanic/Documents/Tomislav/Columbia/Courses/Fall 2021/ENGI E4800/Tedesco/CDC/SVI/SVI2000_dictionary_augmented.csv')
+df_2010_dict<-na_if(df_2010_dict,NA)
+```
+
+
+# 2010 dataset cleaning
+
+Drop bad columns from dataset
+```{r}
+bad_cols <- c('E_P_PCI','M_P_PCI')
+df_2010 = df_2010[,!(names(df_2010) %in% bad_cols)]
+```
+
+
+Variable transformations
+```{r}
+df_2010$E_P_POV<-df_2010$E_P_POV*100
+df_2010$M_P_POV<-df_2010$M_P_POV*100
+df_2010$E_P_NOHSDIP<-df_2010$E_P_NOHSDIP*100
+df_2010$M_P_NOHSDIP<-df_2010$M_P_NOHSDIP*100
+df_2010$P_AGE65<-df_2010$P_AGE65*100
+df_2010$P_AGE17<-df_2010$P_AGE17*100
+df_2010$P_SNGPRNT<-df_2010$P_SNGPRNT*100
+df_2010$P_MINORITY<-df_2010$P_MINORITY*100
+df_2010$E_P_LIMENG<-df_2010$E_P_LIMENG*100
+df_2010$M_P_LIMENG<-df_2010$M_P_LIMENG
+df_2010$E_P_MUNIT<-df_2010$E_P_MUNIT*100
+df_2010$M_P_MUNIT<-df_2010$M_P_MUNIT*100
+df_2010$E_P_MOBILE<-df_2010$E_P_MOBILE*100
+df_2010$M_P_MOBILE<-df_2010$M_P_MOBILE*100
+df_2010$E_P_CROWD<-df_2010$E_P_CROWD*100
+df_2010$M_P_CROWD<-df_2010$M_P_CROWD*100
+df_2010$E_P_NOVEH<-df_2010$E_P_NOVEH*100
+df_2010$M_P_NOVEH<-df_2010$M_P_NOVEH*100
+#TG: added the following
+df_2010$E_P_UNEMP<-df_2010$E_P_UNEMP*100
+df_2010$M_P_UNEMP<-df_2010$M_P_UNEMP*100
+df_2010$P_GROUPQ<-df_2010$P_GROUPQ*100
+```
+
+
+Replace 2010 column names
+```{r}
+not_nans = !is.na(df_2010_dict$VARIABLE_NAME_2018)
+
+mask = (!(df_2010_dict$VARIABLE_NAME %in% bad_cols))&(not_nans)
+
+oldnames = c(df_2010_dict$VARIABLE_NAME[mask])
+newnames = c(df_2010_dict$VARIABLE_NAME_2018[mask])
+
+df_2010 <- df_2010 %>% rename_at(vars(oldnames), ~ newnames)
+```
+
+Create year column and assign year 2010
+```{r}
+df_2010$YEAR = 2010
+```
+
+
+
+# 2000 dataset cleaning
+
+
+Variable transformations
+
+```{r}
+df_2000$G1V1R<-df_2000$G1V1R*100
+df_2000$G1V2R<-df_2000$G1V2R*100
+df_2000$G1V4R<-df_2000$G1V4R*100
+df_2000$G2V1R<-df_2000$G2V1R*100
+df_2000$G2V2R<-df_2000$G2V2R*100
+df_2000$G2V3R<-df_2000$G2V3R*100
+df_2000$G2V4R<-df_2000$G2V4R*100
+df_2000$G3V1R<-df_2000$G3V1R*100
+df_2000$G3V2R<-df_2000$G3V2R*100
+df_2000$G4V1R<-df_2000$G4V1R*100
+df_2000$G4V2R<-df_2000$G4V2R*100
+df_2000$G4V3R<-df_2000$G4V3R*100
+df_2000$G4V4R<-df_2000$G4V4R*100
+df_2000$G4V5R<-df_2000$G4V5R*100
+```
+
+Replace 2000 column names
+```{r}
+
+oldnames = c(df_2000_dict$VARIABLE_NAME)
+newnames = c(df_2000_dict$VARIABLE_NAME_2018)
+
+df_2000 <- df_2000 %>% rename_at(vars(oldnames), ~ newnames)
+```
+
+Create year column and assign year 2000
+```{r}
+df_2000$YEAR = 2000
+```
+
+
+# 2016 and 2014 cleaning
+```{r}
+df_2014$YEAR = 2014
+bad_cols <- c('FID','AFFGEOID','TRACTCE')
+df_2014 = df_2014[,!(names(df_2014) %in% bad_cols)]
+
+
+df_2016$YEAR = 2016
+bad_cols <- c('FID')
+df_2016 = df_2016[,!(names(df_2016) %in% bad_cols)]
+
+```
+
+
+
+# 2018 cleaning
+
+```{r}
+df_2018$YEAR = 2018
+```
+
+
+# Merge merge datarames of each year
+```{r}
+df <- bind_rows(df_2000,df_2010,df_2014,df_2016,df_2018)
+```
+
+
+Remove leading and trailing white spaces and upper case all categorical columns
+```{r}
+df <- df %>% mutate(across(where(is.character), toupper)) %>% mutate(across(where(is.character), str_trim))
+```
+
+Cast fips to character to avoid overflow
+```{r}
+df$FIPS <- as.character(df$FIPS)
+```
+
+Remove unnecesary columns (TG: added STATE_FIPS, STCOFIPS)
+```{r}
+
+unwanted_cols <- c('ST',
+  'CNTY_FIPS',
+  'STCNTY',
+  'STATE_FIPS',
+  'STCOFIPS',
+  'TRACT',
+  'COUNTY',
+  'LOCATION',
+  'GEO_ID',
+  'X')
+
+df<-df[!(names(df) %in% unwanted_cols)]
+```
+
+
+Pivot wider
+
+id_cols = c('ST',
+            'CNTY_FIPS',
+            'STCNTY',
+            'TRACT',
+            'FIPS',
+            'STATE',
+            'ST_ABBR',
+            'COUNTY',
+            'LOCATION',
+            'GEO_ID')
+```{r}
+
+
+
+id_cols = c('FIPS',
+            'STATE',
+            'ST_ABBR')
+
+
+names_from <- c('YEAR')
+values_from <- names(df)[!(names(df) %in% append(id_cols,names_from))]
+
+df <- df %>% pivot_wider(id_cols = id_cols,
+                          names_from = names_from,
+                          values_from = values_from)
+```
+
+
+Write csv
+```{r}
+write.csv(df,file = '/Users/tomislav_galjanic/Documents/Tomislav/Columbia/Courses/Fall 2021/ENGI E4800/Tedesco/CDC/SVI/processed/SVI_all_years.csv',row.names = FALSE)
+```
+
+
+
+
+```{r}
+
+df_cols <- colnames(df)
+df_cols_df <- data.frame(df_cols)
+df_cols_clean <- df_cols_df %>% separate(df_cols, c("df_cols", NA), sep = "_2000") %>% separate(df_cols, c("df_cols", NA), sep = "_2010") %>% separate(df_cols, c("df_cols", NA), sep = "_2014") %>% separate(df_cols, c("df_cols", NA), sep = "_2016") %>% separate(df_cols, c("df_cols", NA), sep = "_2018")
+
+df_cols_clean <- df_cols_clean %>% rename(df_cols_no_year = df_cols)
+
+df_cols_df <- cbind(df_cols, df_cols_clean)
+```
+
+Write csv
+```{r}
+write.csv(df_cols, file = '/Users/tomislav_galjanic/Documents/Tomislav/Columbia/Courses/Fall 2021/ENGI E4800/Tedesco/CDC/SVI/processed/SVI_all_years_col_names.csv',row.names = FALSE)
+```
+
+
+
+Read in 2018 clean dictonary
+```{r}
+
+df_2018_dict = read.csv('/Users/tomislav_galjanic/Documents/Tomislav/Columbia/Courses/Fall 2021/ENGI E4800/Tedesco/CDC/SVI/SVI2018_dictionary_clean.csv')
+
+df_2018_dict_simple <- df_2018_dict[,c(1,2)]
+df_2018_dict_simple <- df_2018_dict_simple %>% separate(DESCRIPTION, c("DESCRIPTION", NA), sep = "2014-2018 ACS") 
+
+```
+
+
+
+```{r}
+
+df_cols_dict <- left_join(df_cols_df, df_2018_dict_simple, by=c("df_cols_no_year" = "VARIABLE.NAME") )
+
+```
+
+
+```{r}
+
+df_cols_dict <- df_cols_dict %>% mutate(year_text = case_when(str_detect(df_cols, "AGE65_2010") ~ "2010 SF1",
+                                              str_detect(df_cols, "AGE17_2010") ~ "2010 SF1",
+                                              str_detect(df_cols, "SNGPNT_2010") ~ "2010 SF1",
+                                              str_detect(df_cols, "MINRTY_2010") ~ "2010 SF1",
+                                              str_detect(df_cols, "GROUPQ_2010") ~ "2010 SF1",
+                                              str_detect(df_cols, "E_TOTPOP_2000") ~ "2000 SF1",
+                                              str_detect(df_cols, "E_TOTPOP_2010") ~ "2006-2010 ACS",
+                                              str_detect(df_cols, "E_TOTPOP_2014") ~ "2010-2014 ACS",
+                                              str_detect(df_cols, "E_TOTPOP_2016") ~ "2012-2016 ACS",
+                                              str_detect(df_cols, "E_TOTPOP_2018") ~ "2014-2018 ACS",
+                                              str_detect(df_cols, "M_TOTPOP_2000") ~ "2000 SF1",
+                                              str_detect(df_cols, "M_TOTPOP_2010") ~ "2006-2010 ACS",
+                                              str_detect(df_cols, "M_TOTPOP_2014") ~ "2010-2014 ACS",
+                                              str_detect(df_cols, "M_TOTPOP_2016") ~ "2012-2016 ACS",
+                                              str_detect(df_cols, "M_TOTPOP_2018") ~ "2014-2018 ACS",
+                                              str_detect(df_cols, "TOTPOP_2000") ~ "Total population, 2000 SF1",
+                                              str_detect(df_cols, "TOTPOP_2010") ~ "Total population, 2010 SF1",
+                                              str_detect(df_cols, "TOTPOP_2014") ~ "Total population, 2014 SF1",
+                                              str_detect(df_cols, "TOTPOP_2016") ~ "Total population, 2016 SF1",
+                                              str_detect(df_cols, "TOTPOP_2018") ~ "Total population, 2018 SF1",
+                                              str_detect(df_cols, "E_HU_2000") ~ "2000 SF1",
+                                              str_detect(df_cols, "E_HU_2010") ~ "2006-2010 ACS",
+                                              str_detect(df_cols, "E_HU_2014") ~ "2010-2014 ACS",
+                                              str_detect(df_cols, "E_HU_2016") ~ "2012-2016 ACS",
+                                              str_detect(df_cols, "E_HU_2018") ~ "2014-2018 ACS",
+                                              str_detect(df_cols, "M_HU_2000") ~ "2000 SF1",
+                                              str_detect(df_cols, "M_HU_2010") ~ "2006-2010 ACS",
+                                              str_detect(df_cols, "M_HU_2014") ~ "2010-2014 ACS",
+                                              str_detect(df_cols, "M_HU_2016") ~ "2012-2016 ACS",
+                                              str_detect(df_cols, "M_HU_2018") ~ "2014-2018 ACS",
+                                              str_detect(df_cols, "HU_2000") ~ "Housing units, 2000 SF1",
+                                              str_detect(df_cols, "HU_2010") ~ "Housing units, 2010 SF1",
+                                              str_detect(df_cols, "HU_2014") ~ "Housing units, 2014 SF1",
+                                              str_detect(df_cols, "HU_2016") ~ "Housing units, 2016 SF1",
+                                              str_detect(df_cols, "HU_2018") ~ "Housing units, 2018 SF1",
+                                              str_detect(df_cols, "E_HH_2000") ~ "2000 SF1",
+                                              str_detect(df_cols, "E_HH_2010") ~ "2006-2010 ACS",
+                                              str_detect(df_cols, "E_HH_2014") ~ "2010-2014 ACS",
+                                              str_detect(df_cols, "E_HH_2016") ~ "2012-2016 ACS",
+                                              str_detect(df_cols, "E_HH_2018") ~ "2014-2018 ACS",
+                                              str_detect(df_cols, "M_HH_2000") ~ "2000 SF1",
+                                              str_detect(df_cols, "M_HH_2010") ~ "2006-2010 ACS",
+                                              str_detect(df_cols, "M_HH_2014") ~ "2010-2014 ACS",
+                                              str_detect(df_cols, "M_HH_2016") ~ "2012-2016 ACS",
+                                              str_detect(df_cols, "M_HH_2018") ~ "2014-2018 ACS",
+                                              str_detect(df_cols, "HH_2000") ~ "Number of households, 2000 SF1",
+                                              str_detect(df_cols, "HH_2010") ~ "Number of households, 2010 SF1",
+                                              str_detect(df_cols, "HH_2014") ~ "Number of households, 2014 SF1",
+                                              str_detect(df_cols, "HH_2016") ~ "Number of households, 2016 SF1",
+                                              str_detect(df_cols, "HH_2018") ~ "Number of households, 2018 SF1",
+                                              str_detect(df_cols, "2000") ~ "2000 SF1",
+                                              str_detect(df_cols, "2010") ~ "2006-2010 ACS",
+                                              str_detect(df_cols, "2014") ~ "2010-2014 ACS",
+                                              str_detect(df_cols, "2016") ~ "2012-2016 ACS",
+                                              str_detect(df_cols, "2018") ~ "2014-2018 ACS",
+                                              TRUE ~ " "))
+
+df_cols_dict$DESCRIPTION <- df_cols_dict$DESCRIPTION %>% replace_na(" ")
+df_cols_dict$Variable_Description <- str_c(df_cols_dict$DESCRIPTION, df_cols_dict$year_text, sep = " ")
+df_cols_dict$Variable_Description <- str_trim(df_cols_dict$Variable_Description, side = c("both"))
+
+```
+
+
+```{r}
+
+df_data_dict <- df_cols_dict %>% rename(Variable_Name = df_cols) 
+df_data_dict <- subset(df_data_dict, select = c(Variable_Name, Variable_Description))
+
+write.csv(df_data_dict, file = '/Users/tomislav_galjanic/Documents/Tomislav/Columbia/Courses/Fall 2021/ENGI E4800/Tedesco/CDC/SVI/processed/SVI_data_dictionary.csv',row.names = FALSE)
+```
+
