@@ -15,15 +15,31 @@ library(extracat)
 train = read.csv('../data/processed/sepher_model_data/train.csv')
 ```
 
+
+```{r}
+library(stringr)
+mask = str_length(as.character(train$FIPS))==11
+train <- train[mask,]
+
+```
+
+
+```{r}
+dim(train)
+```
+
 ```{r}
 colMeans(is.na(train))*100
 ```
+
+
 ```{r}
-visna(train)
+extracat::visna(train)
 ```
 
 
 ```{r,fig.height=2,fig.width=2}
+library(corrplot)
 cormat <- cor(train[,-c(1)],use = "complete.obs")
 col<- colorRampPalette(c("blue","white","red"))(200)
 corrplot(cormat,
@@ -43,9 +59,8 @@ corrplot(cormat,
 
 
 ```{r}
-hist(train$EVICTIONS,breaks=30)
+hist(train$EVICTIONS,breaks=100)
 ```
-
 
 ```{r}
 train$EVICTIONS <- replace_na(train$EVICTIONS,0)
