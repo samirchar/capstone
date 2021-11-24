@@ -1,4 +1,4 @@
-data <- read.csv("SEPHER2.0.csv", colClasses=c(FIPS="character"))
+data <- read.csv("SEPHER2.0.csv")
 dict <- read.csv("SEPHER2.0_dataDictionary.csv")
 missing_columns <- setdiff(dict$Name, colnames(data))
 nrow(dict[!(dict$Name  %in% missing_columns),])
@@ -57,3 +57,6 @@ write.csv(new_data, "sepher2.0_cleaned.csv",row.names = FALSE)
 
 write.csv(new_dict, "sepher2.0_cleaned_dataDictionary.csv",row.names = FALSE)
 
+dataForVerification <- read.csv("SEPHER2.0_cleaned.csv")
+View(dataForVerification[1:5,])
+ 
