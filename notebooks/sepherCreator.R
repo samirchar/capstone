@@ -1,6 +1,21 @@
 library(dplyr)
+library(stringr)
+
 
 #reading all the data
+
+fipsChecker<-function(x){
+  if(length(x)<11){
+    padded<-str_pad(x, 11, pad = "0")
+    formatted<-paste(padded,"GID",sep="")
+  } else{
+    formatted<-paste(x,"GID",sep="")
+  }
+  return(formatted)
+}
+
+
+
 
 evictionData<-read.csv("../data/Evictions/evictions_data.csv" , colClasses=c(GEOID="character"))
 mortgageData<-read.csv("../data/Mortgages/mortgages_all_years_new.csv", colClasses=c(FIPS="character"))
@@ -10,6 +25,11 @@ nriData<-read.csv("../data/NRI/NRI_Table_CensusTracts/NRI_Clean_CensusTracts.csv
 sviData<-read.csv("../data/SVI/SVI_all_years.csv", colClasses=c(FIPS="character"))
 
 
+
+evictionData$GEOID<-sapply(evictionData$GEOID, fipsChecker)
+mortgageData$FIPS<-sapply(mortgageData$FIPS, fipsChecker)
+nriData$TRACTFIPS<-sapply(nriData$TRACTFIPS, fipsChecker)
+sviData$FIPS<-sapply(sviData$FIPS, fipsChecker)
 #Taking subsets for rhode island 
 
 
@@ -131,7 +151,7 @@ sepher<-sepher[,cols]
 setdiff(dictionary$Name,colnames(sepher))
 
 
-mortgageData$STATEID<-as.numeric(substr(mortgageData$FIPS,1,2))
+mortgageData$STATEID<-substr(mortgageData$FIPS,1,2)
 #state="RHODE ISLAND"
 for(state in unique(sviData$STATE)){
   
@@ -143,6 +163,7 @@ for(state in unique(sviData$STATE)){
   #checking which state has the most rows to join o
   
   state_sepher<-merge(state_svi,state_nri, by.x = "FIPS", by.y = "TRACTFIPS" ,all.x = TRUE, all.y = TRUE)
+  #cat(class(state_sepher))
   state_sepher$STATE<-state_sepher$STATE.x
   state_sepher<-state_sepher[,!(colnames(state_sepher) %in% c("STATE.x","STATE.y"))]
   state_sepher<-merge(state_sepher,state_evi,by.x = "FIPS", by.y = "GEOID" ,all.x = TRUE, all.y = TRUE)
@@ -155,12 +176,15 @@ for(state in unique(sviData$STATE)){
   cols<-dictionary$Name[dictionary$Name %in% colnames(state_sepher)]
   state_sepher<-state_sepher[,cols]
   
-  
-  sepher<-union(sepher,state_sepher)
+  #cat(class(sepher),class(state_sepher),"\nbefore union\n")
+  sepher<-dplyr::union(sepher,state_sepher)
+  #cat(class(sepher),class(state_sepher),"\nafter union\n")
   cat(state,"\n")
 }
 
-class(sepher$FIPS)
+
+
+View(sepher[1:5,])
 #writing file
 write.csv(sepher,"SEPHER2.0.csv",row.names = FALSE)
 
