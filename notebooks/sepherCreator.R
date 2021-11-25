@@ -1,6 +1,65 @@
+install.packages('state')
 library(dplyr)
 library(stringr)
+library(state)
 
+state_mappings = list(
+  '01'='ALABAMA',
+  '02'='ARKANSAS',
+  '04'='ARIZONA',
+  '05'='ARKANSAS',
+  '06'='CALIFORNIA',
+  '08'='COLORADO',
+  '09'='CONNECTICUT',
+  '10'='DELAWARE',
+  '12'='FLORIDA',
+  '13'='GEORGIA',
+  '15'='HAWAII',
+  '16'='IDAHO',
+  '17'='ILLINOIS',
+  '18'='INDIANA',
+  '19'='IOWA',
+  '20'='KANSAS',
+  '21'='KENTUCKY',
+  '22'='LOUISIANA',
+  '23'='MAINE',
+  '24'='MARYLAND',
+  '25'='MASSACHUSETTS',
+  '26'='MICHIGAN',
+  '27'='MINNESOTA',
+  '28'='MISSISSIPI',
+  '29'='MISSOURI',
+  '30'='MONTANA',
+  '31'='NEBRASKA',
+  '32'='NEVADA',
+  '33'='NEW HAMPSHIRE',
+  '34'='NEW JERSEY',
+  '35'='NEW MEXICO',
+  '36'='NEW YORK',
+  '37'='NORTH CAROLINA',
+  '38'='NORTH DAKOTA',
+  '39'='OHIO',
+  '40'='OKLAHOMA',
+  '41'='OREGON',
+  '42'='PENNSYLVANIA',
+  '44'='RHODE ISLAND',
+  '45'='SOUTH CAROLINA',
+  '46'='SOUTH DAKOTA',
+  '47'='TENNESSEE',
+  '48'='TEXAS',
+  '49'='UTAH',
+  '50'='VERMONT',
+  '51'='VIRGINIA',
+  '53'='WASHINGTON',
+  '54'='WEST VIRGINIA',
+  '55'='WISCONSIN',
+  '56'='WYOMING',
+  '60'='AMERICAN SAMOA',
+  '66'='GUAM',
+  '69'='NORTHEN MARIANA ISLANDS',
+  '72'='PUERTO RICO',
+  '78'='VIRGIN ISLANDS'
+)
 
 #reading all the data
 
@@ -14,15 +73,17 @@ fipsChecker<-function(x){
   return(formatted)
 }
 
+stateCodetoName<-function(code){
+  return(toupper(state_mappings[code]))
+}
 
 
-
-evictionData<-read.csv("../data/Evictions/evictions_data.csv" , colClasses=c(GEOID="character"))
-mortgageData<-read.csv("../data/Mortgages/mortgages_all_years_new.csv", colClasses=c(FIPS="character"))
+evictionData<-read.csv("data/Evictions/evictions_data.csv" , colClasses=c(GEOID="character"))
+mortgageData<-read.csv("data/Mortgages/mortgages_all_years.csv", colClasses=c(FIPS="character"))
 colnames(mortgageData)<-toupper(colnames(mortgageData))
 
-nriData<-read.csv("../data/NRI/NRI_Table_CensusTracts/NRI_Clean_CensusTracts.csv", colClasses=c(TRACTFIPS="character"))
-sviData<-read.csv("../data/SVI/SVI_all_years.csv", colClasses=c(FIPS="character"))
+nriData<-read.csv("data/NRI/NRI_Clean_CensusTracts.csv", colClasses=c(TRACTFIPS="character"))
+sviData<-read.csv("data/SVI/SVI_all_years.csv", colClasses=c(FIPS="character"))
 
 
 
@@ -50,7 +111,7 @@ sepher<-merge(sepher,eviction_rhodeIsland,by.x = "FIPS", by.y = "GEOID" ,all.x =
 
 #reading data dictionary for verification
 
-dictionary<-read.csv("SEPHER2.0_dataDictionary.csv")
+dictionary<-read.csv("data/SEPHER2.0_dataDictionary.csv")
 
 setdiff(dictionary$Name,colnames(sepher))
 
@@ -127,7 +188,7 @@ write.csv(dictionary_noMorg,"SEPHER2.0_dataDictionary_noMortgage.csv",row.names 
 
 #CREATING SEPHER WITH MORTGAGE DATA
 
-dictionary<-read.csv("SEPHER2.0_dataDictionary.csv")
+dictionary<-read.csv("data/SEPHER2.0_dataDictionary.csv")
 
 #initializing empty dataframes
 struct_svi<-sviData[sviData$STATE == "random state for empty df",]
@@ -152,14 +213,12 @@ setdiff(dictionary$Name,colnames(sepher))
 
 
 mortgageData$STATEID<-substr(mortgageData$FIPS,1,2)
-#state="RHODE ISLAND"
+mortgageData$STATE <- sapply(mortgageData$STATEID, stateCodetoName)
 for(state in unique(sviData$STATE)){
-  
   state_nri<- nriData[nriData$STATE==state,]
   state_svi<- sviData[sviData$STATE==state,]
   state_evi<- evictionData[evictionData$STATE==state,]
-  state_mor<- mortgageData[mortgageData$STATEID==unique(state_nri$STATEFIPS),]
-
+  state_mor<- mortgageData[mortgageData$STATE==state,]
   #checking which state has the most rows to join o
   
   state_sepher<-merge(state_svi,state_nri, by.x = "FIPS", by.y = "TRACTFIPS" ,all.x = TRUE, all.y = TRUE)
@@ -172,12 +231,14 @@ for(state in unique(sviData$STATE)){
   state_sepher<-state_sepher[,!(colnames(state_sepher) %in% c("STATE.x","STATE.y","COUNTY.x","COUNTY.y"))]
   
   state_sepher<-merge(state_sepher,state_mor,by.x = "FIPS", by.y = "FIPS" ,all.x = TRUE, all.y = FALSE)
+  print(sum(is.na(state_sepher$AFAM_2016)))
+  print(nrow(state_sepher))
   state_sepher<-state_sepher[,!(colnames(state_sepher) %in% c("STATEID"))]
-  cols<-dictionary$Name[dictionary$Name %in% colnames(state_sepher)]
+  #cols<-dictionary$Name[dictionary$Name %in% colnames(state_sepher)]
+  cols <- intersect(colnames(state_sepher), cols)
   state_sepher<-state_sepher[,cols]
-  
   #cat(class(sepher),class(state_sepher),"\nbefore union\n")
-  sepher<-dplyr::union(sepher,state_sepher)
+  sepher<-dplyr::union(sepher[,cols],state_sepher[,cols])
   #cat(class(sepher),class(state_sepher),"\nafter union\n")
   cat(state,"\n")
 }
